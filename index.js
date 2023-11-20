@@ -25,8 +25,11 @@ async function weatherCard(weatherInfo){
     if (!weather.error){
     if (!document.querySelector('.cardContainer')){
     const content = document.querySelector('.content')
-    
-    
+    console.log(weather.current.condition.icon.slice(-7,-4))
+    const conditionImage = document.createElement('img')
+    conditionImage.src = dayOrNight(weather.current.is_day)+"/"+weather.current.condition.icon.slice(-7)
+    conditionImage.id = "conditionImage"
+
     const countryName = document.createElement('p')
     countryName.id = "cardCountryName"
     
@@ -37,11 +40,13 @@ async function weatherCard(weatherInfo){
     cardContainer.classList.add('cardContainer')
     cardContainer.appendChild(cityName)
     cardContainer.appendChild(countryName)
-    
+    cardContainer.appendChild(conditionImage)
+
     content.appendChild(cardContainer)
     }
     document.querySelector('#cardCountryName').textContent = weather.location.country
     document.querySelector('#cardCityName').textContent = weather.location.name
+    document.querySelector('#conditionImage').src = dayOrNight(weather.current.is_day)+"/"+weather.current.condition.icon.slice(-7)
 }
 else{
     alert("city not found")
@@ -61,6 +66,12 @@ async function inputControl(){
             }
         }
     })
+}
+function dayOrNight(isday){
+    if (isday){
+        return "day"
+    }
+    return "night"
 }
 
 inputControl()
